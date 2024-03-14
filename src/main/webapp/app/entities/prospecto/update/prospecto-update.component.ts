@@ -99,12 +99,13 @@ export class ProspectoUpdateComponent implements OnInit {
 
             this.prospectoService.uploadFiles(formData, res.nProspecto).subscribe((resDocs: any) => {
               if (resDocs) {
+                this.isSaving = false;
                 this.previousState();
               }
             });
           },
           (error: any) => {
-            this.isSaving = true;
+            this.isSaving = false;
             this.alertService.addAlert({
               type: 'danger',
               message: 'Ocurrió un error al guardar el prospecto.',
@@ -112,7 +113,7 @@ export class ProspectoUpdateComponent implements OnInit {
           }
         );
       } else {
-        this.isSaving = true;
+        this.isSaving = false;
         this.alertService.addAlert({
           type: 'danger',
           message: 'Es necesario agregar 1 ó mas documentos.',
