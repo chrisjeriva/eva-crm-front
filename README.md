@@ -3,9 +3,9 @@ Repositorio del código de Front para evaluación técnica
 
 # Importante: pasos a seguir para tener listo el ambiente para el front
 
-- Instalar nodejs            - Version ->
-- Instalar angular           - Version ->
-- Instalar angular-cli       - Version ->
+- Instalar nodejs            - Version -> `v14.17.5`
+- Instalar angular           - Version -> `11.2.7`
+- Instalar angular-cli       - Version -> `11.2.6`
 - Ejecutar el comando `npm i` o `npm install`
 - Apuntar el cliente a servidor local
   - Abrir el archivo **`proxy.conf.js`** de la carpeta **`webpack`**
