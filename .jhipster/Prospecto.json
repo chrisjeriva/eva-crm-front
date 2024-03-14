@@ -1,0 +1,63 @@
+{
+  "fields": [
+    {
+      "fieldName": "cNombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "cApellidoPaterno",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "cApellidoMaterno",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cCalle",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cNoExt",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cColonia",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cCodigoPostal",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cTelefono",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cRFC",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nEstatus",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "bActivo",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [],
+  "readOnly": false,
+  "pagination": "pagination",
+  "name": "Prospecto",
+  "changelogDate": "20240308072137"
+}

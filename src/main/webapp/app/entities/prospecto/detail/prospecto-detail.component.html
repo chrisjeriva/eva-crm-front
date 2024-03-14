@@ -1,0 +1,100 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="prospecto">
+      <div class="card">
+        <div class="card-header">
+          <h2 data-cy="prospectoDetailsHeading"><span>Prospecto</span></h2>
+        </div>
+        <div class="card-body">
+          
+          <jhi-alert-error></jhi-alert-error>
+    
+          <jhi-alert></jhi-alert>
+
+          <dl class="row-md jh-entity-details">
+            <dt><span>ID</span></dt>
+            <dd>
+              <span>{{ prospecto.nProspecto }}</span>
+            </dd>
+            <dt><span>Nombre(s)</span></dt>
+            <dd>
+              <span>{{ prospecto.cNombre }} {{ prospecto.cApellidoPaterno }} {{ prospecto.cApellidoMaterno }}</span>
+            </dd>
+            <dt><span>Telefono</span></dt>
+            <dd>
+              <span>{{ prospecto.cTelefono }}</span>
+            </dd>
+            <dt><span>RFC</span></dt>
+            <dd>
+              <span>{{ prospecto.cRFC }}</span>
+            </dd>
+            <dt><span>Calle</span></dt>
+            <dd>
+              <span>{{ prospecto.cCalle }}</span>
+            </dd>
+            <dt><span>No Ext</span></dt>
+            <dd>
+              <span>{{ prospecto.cNoExt }}</span>
+            </dd>
+            <dt><span>Colonia</span></dt>
+            <dd>
+              <span>{{ prospecto.cColonia }}</span>
+            </dd>
+            <dt><span>Codigo Postal</span></dt>
+            <dd>
+              <span>{{ prospecto.cCodigoPostal }}</span>
+            </dd>
+            <dt><span>Estatus</span></dt>
+            <dd>
+              <span>{{ prospecto.estatus?.cEstatus }}</span>
+            </dd>
+          </dl>  
+          <div *ngIf="prospecto.nEstatus == 3">
+            <h5>Observaciones de Rechazo</h5>
+            <pre>
+              {{prospecto.cObservacionesRechazo}}
+            </pre>
+          </div>
+          <hr>
+          <h4>Documentos</h4>
+          <div class="row mb-3">
+            <div class="col-3">
+              <ul class="list-group">
+                <li *ngFor="let documento of documentosNombres; let i = index;"  class="list-group-item d-flex justify-content-between align-items-center">
+                  <a target="_blank" (click)="descargar(documento)">{{documento.cDocumento}}</a>
+                </li>
+              </ul>
+              <small>Click en el documento para descargar.</small>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-3">
+              <button type="submit" (click)="previousState()" class="btn btn-info ml-4" data-cy="entityDetailsBackButton">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span></span>
+              </button>
+            </div>
+            <div class="col-6"></div>
+            <div class="col-3 d-flex justify-content-end"  *jhiHasAnyAuthority="['ROLE_ADMIN']">
+              <button type="button" [disabled]="documentosNombres.length == 0" (click)="rechazar()" class="btn btn-secondary mr-2">
+                <fa-icon icon="times"></fa-icon>&nbsp;<span>Rechazar</span>
+              </button>
+              <button type="button" [disabled]="documentosNombres.length == 0" (click)="autorizar()" class="btn btn-primary mr-4">
+                <fa-icon icon="check"></fa-icon>&nbsp;<span>Autorizar</span>
+              </button>
+            </div>
+            <div class="col-3 d-flex justify-content-end"  *jhiHasAnyAuthority="['ROLE_EVALUADOR']">
+              <button type="button" [disabled]="documentosNombres.length == 0" (click)="rechazar()" class="btn btn-secondary mr-2" *ngIf="!hideButtons">
+                <fa-icon icon="times"></fa-icon>&nbsp;<span>Rechazar</span>
+              </button>
+              <button type="button" [disabled]="documentosNombres.length == 0" (click)="autorizar()" class="btn btn-primary mr-4" *ngIf="!hideButtons">
+                <fa-icon icon="check"></fa-icon>&nbsp;<span>Autorizar</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>

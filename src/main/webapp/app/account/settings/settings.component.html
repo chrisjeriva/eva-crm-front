@@ -1,0 +1,107 @@
+<div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h2 *ngIf="account">
+        Configuración de usuario para [<strong>{{ account.login }}</strong
+        >]
+      </h2>
+
+      <div class="alert alert-success" *ngIf="success">
+        <strong>Datos guardados!</strong>
+      </div>
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <form name="form" role="form" (ngSubmit)="save()" [formGroup]="settingsForm" *ngIf="account" novalidate>
+        <div class="form-group">
+          <label class="form-control-label" for="firstName">Nombre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            placeholder="Nombre"
+            formControlName="firstName"
+            data-cy="firstname"
+          />
+
+          <div
+            *ngIf="
+              settingsForm.get('firstName')!.invalid && (settingsForm.get('firstName')!.dirty || settingsForm.get('firstName')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.required">
+              Tu nombre es requerido.
+            </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.minlength">
+              Es necesario escribir al menos 1 carácter.
+            </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('firstName')?.errors?.maxlength">
+              Tu nombre no puede exceder los 50 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="lastName">Apellidos</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            placeholder="Apellidos"
+            formControlName="lastName"
+            data-cy="lastname"
+          />
+
+          <div
+            *ngIf="settingsForm.get('lastName')!.invalid && (settingsForm.get('lastName')!.dirty || settingsForm.get('lastName')!.touched)"
+          >
+            <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.required">
+              Tu apellido es requerido.
+            </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.minlength">
+              Es necesario escribir al menos 1 carácter.
+            </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('lastName')?.errors?.maxlength">
+              Tus apellidos no pueden exceder los 200 caracteres
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Your email"
+            formControlName="email"
+            data-cy="email"
+          />
+
+          <div *ngIf="settingsForm.get('email')!.invalid && (settingsForm.get('email')!.dirty || settingsForm.get('email')!.touched)">
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.required"> Tu email es requerido. </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.email"> Formato de email incorrecto. </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.minlength">
+              Es necesario escribir al menos 5 carácter.
+            </small>
+
+            <small class="form-text text-danger" *ngIf="settingsForm.get('email')?.errors?.maxlength">
+              Email no puede exceder los 100 caracteres.
+            </small>
+          </div>
+        </div>
+
+        <button type="submit" [disabled]="settingsForm.invalid" class="btn btn-primary" data-cy="submit">Guardar</button>
+      </form>
+    </div>
+  </div>
+</div>

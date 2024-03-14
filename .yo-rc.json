@@ -1,0 +1,53 @@
+{
+  "generator-jhipster": {
+    "skipServer": true,
+    "blueprints": [
+      {
+        "name": "generator-jhipster-nodejs",
+        "version": "2.0.0"
+      }
+    ],
+    "otherModules": [
+      {
+        "name": "generator-jhipster-nodejs",
+        "version": "2.0.0"
+      }
+    ],
+    "applicationType": "monolith",
+    "baseName": "CRMTest",
+    "jhipsterVersion": "7.0.1",
+    "skipClient": false,
+    "skipUserManagement": false,
+    "skipCheckLengthOfIdentifier": false,
+    "skipFakeData": false,
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "testFrameworks": [],
+    "pages": [],
+    "creationTimestamp": 1709880315666,
+    "clientFramework": "angularX",
+    "withAdminUi": true,
+    "clientTheme": "pulse",
+    "clientThemeVariant": "dark",
+    "enableTranslation": false,
+    "nativeLanguage": "es",
+    "clientPackageManager": "npm",
+    "packageName": "com.mycompany.myapp",
+    "cacheProvider": "ehcache",
+    "websocket": false,
+    "databaseType": "sql",
+    "prodDatabaseType": "postgresql",
+    "devDatabaseType": "h2Disk",
+    "searchEngine": false,
+    "buildTool": "maven",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "serviceDiscoveryType": false,
+    "enableHibernateCache": true,
+    "reactive": false,
+    "languages": ["en", "fr"],
+    "lastLiquibaseTimestamp": 1709882497000,
+    "entities": ["Prospecto"]
+  }
+}

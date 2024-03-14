@@ -1,0 +1,220 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <div class="card">
+        <div class="card-header">
+          <h2 id="jhi-prospecto-heading" data-cy="ProspectoCreateUpdateHeading">{{editForm.get('nProspecto')!.value == null ? 'Crear' : 'Editar'}} Prospecto</h2>
+        </div>
+        <div class="card-body">
+            <jhi-alert-error></jhi-alert-error>
+            
+            <jhi-alert></jhi-alert>
+            <div class="form-group" [hidden]="editForm.get('nProspecto')!.value == null">
+              <label class="form-control-label" for="field_nProspecto">ID</label>
+              <input type="number" class="form-control" name="nProspecto" id="field_nProspecto" data-cy="nProspecto" formControlName="nProspecto" [readonly]="true" />
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cNombre">*Nombre(s)</label>
+                  <input type="text" class="form-control" name="cNombre" id="field_cNombre" data-cy="cNombre" formControlName="cNombre" placeholder="Nombres" />
+                  <div *ngIf="editForm.get('cNombre')!.invalid && (editForm.get('cNombre')!.dirty || editForm.get('cNombre')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cNombre')?.errors?.required"> Campo requerido. </small>
+                    <small class="form-text text-danger" *ngIf="editForm.get('cNombre')?.errors?.maxlength">
+                      Longitud máxima de 200 caracteres.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cApellidoPaterno">*Apellido Paterno</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="cApellidoPaterno"
+                    id="field_cApellidoPaterno"
+                    data-cy="cApellidoPaterno"
+                    formControlName="cApellidoPaterno"
+                    placeholder="Apellido paterno"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('cApellidoPaterno')!.invalid &&
+                      (editForm.get('cApellidoPaterno')!.dirty || editForm.get('cApellidoPaterno')!.touched)
+                    "
+                  >
+                    <small class="form-text text-danger" *ngIf="editForm.get('cApellidoPaterno')?.errors?.required">
+                      Campo requerido.
+                    </small>
+                    <small class="form-text text-danger" *ngIf="editForm.get('cApellidoPaterno')?.errors?.maxlength">
+                      Longitud máxima de 200 caracteres.
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cApellidoMaterno">Apellido Materno</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="cApellidoMaterno"
+                    id="field_cApellidoMaterno"
+                    data-cy="cApellidoMaterno"
+                    formControlName="cApellidoMaterno"
+                    placeholder="Apellido materno"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cRFC">*RFC</label>
+                  <input type="text" class="form-control" name="cRFC" id="field_cRFC" data-cy="cRFC" formControlName="cRFC" placeholder="RFC"/>
+                  <div *ngIf="editForm.get('cRFC')!.invalid && (editForm.get('cRFC')!.dirty || editForm.get('cRFC')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cRFC')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cTelefono">*Teléfono</label>
+                  <input type="tel" pattern="[0-9]{10}" class="form-control" name="cTelefono" id="field_cTelefono" data-cy="cTelefono" formControlName="cTelefono" placeholder="6673000000" />
+                  <div *ngIf="editForm.get('cTelefono')!.invalid && (editForm.get('cTelefono')!.dirty || editForm.get('cTelefono')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cTelefono')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                  <div *ngIf="editForm.get('cTelefono')!.invalid && (editForm.get('cTelefono')!.dirty || editForm.get('cTelefono')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cTelefono')?.errors?.pattern"> Teléfono incorrecto. </small>
+                  </div>
+                  <div *ngIf="editForm.get('cTelefono')!.invalid && (editForm.get('cTelefono')!.dirty || editForm.get('cTelefono')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cTelefono')?.errors?.maxlength"> La longitud máxima es 10 caracteres. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cColonia">*Colonia</label>
+                  <input type="text" class="form-control" name="cColonia" id="field_cColonia" data-cy="cColonia" formControlName="cColonia" placeholder="Colonia" />
+                  <div *ngIf="editForm.get('cColonia')!.invalid && (editForm.get('cColonia')!.dirty || editForm.get('cColonia')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cColonia')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-2">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cCodigoPostal">*Código Postal</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="cCodigoPostal"
+                    id="field_cCodigoPostal"
+                    data-cy="cCodigoPostal"
+                    formControlName="cCodigoPostal"
+                    placeholder="Código postal"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('cCodigoPostal')!.invalid && (editForm.get('cCodigoPostal')!.dirty || editForm.get('cCodigoPostal')!.touched)
+                    "
+                  >
+                    <small class="form-text text-danger" *ngIf="editForm.get('cCodigoPostal')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-8">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cCalle">*Calle</label>
+                  <input type="text" class="form-control" name="cCalle" id="field_cCalle" data-cy="cCalle" formControlName="cCalle" placeholder="Calle(s)" />
+                  <div *ngIf="editForm.get('cCalle')!.invalid && (editForm.get('cCalle')!.dirty || editForm.get('cCalle')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cCalle')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cNoExt">*Número Ext.</label>
+                  <input type="text" class="form-control" name="cNoExt" id="field_cNoExt" data-cy="cNoExt" formControlName="cNoExt" placeholder="Número ext." />
+                  <div *ngIf="editForm.get('cNoExt')!.invalid && (editForm.get('cNoExt')!.dirty || editForm.get('cNoExt')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cNoExt')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row"  *ngIf="editForm.get('nProspecto')!.value != null">
+              <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_cEstatus">Estatus</label>
+                  <input type="text" class="form-control" name="cEstatus" id="field_cEstatus" data-cy="cEstatus" formControlName="cEstatus" readonly disable />
+                </div>    
+              </div>
+              <!-- <div class="col-4">
+                <div class="form-group">
+                  <label class="form-control-label" for="field_bActivo">Activo</label>
+                  <input type="checkbox" class="form-check" name="bActivo" id="field_bActivo" data-cy="bActivo" formControlName="bActivo" />
+                </div>
+              </div> -->
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <h4>*Documentos <button class="btn btn-primary btn-sm" type="button" (click)="showAgregarDocumento()"><fa-icon icon="plus"></fa-icon></button></h4>
+                <hr>
+              </div>
+            </div>
+            <div class="row" *ngIf="agregarDocumento">
+              <div class="col-4">
+                <div class="form-group">
+                  <input type="text" class="form-control" name="cNombreDocumento" id="field_cNombreDocumento" data-cy="cNombreDocumento" formControlName="cNombreDocumento" placeholder="Escriba el nombre del documento"/>
+                  <div *ngIf="editForm.get('cNombreDocumento')!.invalid && (editForm.get('cNombreDocumento')!.dirty || editForm.get('cNombreDocumento')!.touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('cNombreDocumento')?.errors?.required"> Campo requerido. </small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-primary" type="button" (click)="selectFile()" [disabled]="!editForm.get('cNombreDocumento')!.value">Seleccionar documento</button>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-3">
+                <ul class="list-group">
+                  <li *ngFor="let documento of documentosNombres; let i = index;"  class="list-group-item d-flex justify-content-between align-items-center">
+                    <a *ngIf="nProspecto > 0" target="_blank" (click)="descargar(documento)">{{documento.cDocumento}}</a>
+                    <span *ngIf="nProspecto == 0">{{documento.cDocumento}}</span>
+                    <span class="badge text-bg-secondary rounded-pill" (click)="eliminarDocumento(i, documento.nDocumentoProspecto)"><fa-icon icon="times"></fa-icon></span>
+                  </li>
+
+                </ul>
+                <input
+                  type="file"
+                  id="file"
+                  [hidden]="true"
+                  #file
+                  accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document, .pdf" 
+                  (change)="onFileSelected($event)"
+                  />
+              </div>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-end">
+          <button type="button" id="cancel-save" class="btn btn-secondary mr-2" (click)="salir()">
+            Salir
+          </button>
+  
+          <button
+            type="submit"
+            id="save-entity"
+            data-cy="entityCreateSaveButton"
+            [disabled]="editForm.invalid || isSaving"
+            class="btn btn-primary"
+          >
+            Enviar
+          </button>
+        </div>
+  
+      </div>
+    </form>
+  </div>
+</div>

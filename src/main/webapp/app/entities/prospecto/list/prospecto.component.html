@@ -1,0 +1,125 @@
+<div>
+  <h2 id="page-heading" data-cy="ProspectoHeading">
+    <span>Prospectos</span>
+
+    <div class="d-flex justify-content-end">
+      <!-- <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button> -->
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-prospecto"
+        [routerLink]="['/prospecto/new']"
+      >
+        <span> Nuevo Prospecto </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="prospectos?.length === 0">
+    <span>No prospectos found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="prospectos && prospectos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <!-- <th scope="col" jhiSortBy="nProspecto"><span>ID</span> <fa-icon icon="sort"></fa-icon></th> -->
+          <th scope="col" jhiSortBy="cNombre"><span>Nombre</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cApellidoPaterno"><span>Apellido Paterno</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cApellidoMaterno"><span>Apellido Materno</span> <fa-icon icon="sort"></fa-icon></th>
+          <!-- <th scope="col" jhiSortBy="cCalle"><span>Calle</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cNoExt"><span>No Ext</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cColonia"><span>Colonia</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="cCodigoPostal"><span>Codigo Postal</span> <fa-icon icon="sort"></fa-icon></th> -->
+          <th scope="col" jhiSortBy="cTelefono"><span>Telefono</span> <fa-icon icon="sort"></fa-icon></th>
+          <!-- <th scope="col" jhiSortBy="cRFC"><span>RFC</span> <fa-icon icon="sort"></fa-icon></th> -->
+          <th scope="col" jhiSortBy="nEstatus"><span>Estatus</span> <fa-icon icon="sort"></fa-icon></th>
+          <!-- <th scope="col" jhiSortBy="bActivo"><span>Activo</span> <fa-icon icon="sort"></fa-icon></th> -->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prospecto of prospectos; trackBy: trackId" data-cy="entityTable">
+          <!-- <td>{{ prospecto.nProspecto }}</td> -->
+          <td>{{ prospecto.cNombre }}</td>
+          <td>{{ prospecto.cApellidoPaterno }}</td>
+          <td>{{ prospecto.cApellidoMaterno }}</td>
+          <!-- <td>{{ prospecto.cCalle }}</td>
+          <td>{{ prospecto.cNoExt }}</td>
+          <td>{{ prospecto.cColonia }}</td>
+          <td>{{ prospecto.cCodigoPostal }}</td> -->
+          <td>{{ prospecto.cTelefono }}</td>
+          <!-- <td>{{ prospecto.cRFC }}</td> -->
+          <td>{{ prospecto.estatus?.cEstatus }}</td>
+          <!-- <td>{{ prospecto.bActivo ? 'Activo' : 'Inactivo' }}</td> -->
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/prospecto', prospecto.nProspecto, 'view']"
+                class="btn btn-info btn-sm mr-1"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline"></span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/prospecto', prospecto.nProspecto, 'edit']"
+                class="btn btn-primary btn-sm mr-1"
+                data-cy="entityEditButton"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline"></span>
+              </button>
+
+              <button type="submit" (click)="delete(prospecto)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline"></span>
+              </button>
+
+              <!-- <div *jhiHasAnyAuthority="['ROLE_EVALUADOR']">
+                <button type="submit" title="autorizar" (click)="autorizar(prospecto)" class="btn btn-primary btn-sm mr-1" data-cy="entityAutorizarButton" [disabled]="prospecto.nEstatus == 2">
+                  <fa-icon icon="check"></fa-icon>
+                  <span class="d-none d-md-inline"></span>
+                </button>
+                <button type="submit" title="rechazar" (click)="rechazar(prospecto)" class="btn btn-danger btn-sm" data-cy="entityRechazarButton" [disabled]="prospecto.nEstatus == 3">
+                  <fa-icon icon="times"></fa-icon>
+                  <span class="d-none d-md-inline"></span>
+                </button>
+              </div> -->
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="prospectos && prospectos.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>
