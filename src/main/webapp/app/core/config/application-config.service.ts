@@ -13,8 +13,6 @@ export class ApplicationConfigService {
   }
 
   getEndpointFor(api: string, microservice?: string): string {
-    // eslint-disable-next-line no-debugger
-    debugger
     if (microservice) {
       return `${this.endpointPrefix}services/${microservice}/${api}`;
     }

@@ -24,7 +24,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="prospectos?.length === 0">
-    <span>No prospectos found</span>
+    <span>No hay prospectos registrados</span>
   </div>
 
   <div class="table-responsive" id="entities" *ngIf="prospectos && prospectos.length > 0">
@@ -83,7 +83,13 @@
                 <span class="d-none d-md-inline"></span>
               </button>
 
-              <button type="submit" (click)="delete(prospecto)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton" *jhiHasAnyAuthority="['ROLE_ADMIN']">
+              <button
+                type="submit"
+                (click)="delete(prospecto)"
+                class="btn btn-danger btn-sm"
+                data-cy="entityDeleteButton"
+                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+              >
                 <fa-icon icon="times"></fa-icon>
                 <span class="d-none d-md-inline"></span>
               </button>

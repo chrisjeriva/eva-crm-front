@@ -8,8 +8,8 @@ import { finalize } from 'rxjs/operators';
 import { IProspecto, Prospecto } from '../prospecto.model';
 import { ProspectoService } from '../service/prospecto.service';
 import { AlertService } from 'app/core/util/alert.service';
-import {DomSanitizer} from '@angular/platform-browser';
-import Swal from 'sweetalert2'
+import { DomSanitizer } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'jhi-prospecto-update',
@@ -37,28 +37,29 @@ export class ProspectoUpdateComponent implements OnInit {
     nEstatus: [1],
     cEstatus: [],
     bActivo: [true],
-    cNombreDocumento: []
+    cNombreDocumento: [],
   });
 
-  constructor(protected prospectoService: ProspectoService, 
-              protected activatedRoute: ActivatedRoute, 
-              protected fb: FormBuilder, 
-              private router: Router,
-              private alertService: AlertService,
-              private sanitizer:DomSanitizer) {
-              }
+  constructor(
+    protected prospectoService: ProspectoService,
+    protected activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder,
+    private router: Router,
+    private alertService: AlertService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ prospecto }) => {
       this.updateForm(prospecto);
 
-      if(prospecto.nProspecto) {
+      if (prospecto.nProspecto) {
         this.prospectoService.getFiles(prospecto.nProspecto).subscribe((resDocs: any) => {
-          if(resDocs.body.length > 0) {
+          if (resDocs.body.length > 0) {
             // eslint-disable-next-line no-console
             this.documentosNombres = resDocs.body;
           }
-        })
+        });
       }
     });
     this.onChanges();
@@ -71,7 +72,7 @@ export class ProspectoUpdateComponent implements OnInit {
   }
 
   previousState(): void {
-    if(this.nProspecto > 0) {
+    if (this.nProspecto > 0) {
       this.router.navigate(['../../'], { relativeTo: this.activatedRoute });
     } else {
       this.router.navigate(['../'], { relativeTo: this.activatedRoute });
@@ -82,36 +83,34 @@ export class ProspectoUpdateComponent implements OnInit {
     this.isSaving = true;
     const prospecto = this.createFromForm();
     if (prospecto.nProspecto !== undefined) {
-      // eslint-disable-next-line no-debugger
-      debugger
       this.subscribeToSaveResponse(this.prospectoService.update(prospecto));
     } else {
-      if(this.documentos.length > 0) {
+      if (this.documentos.length > 0) {
         // this.subscribeToSaveResponse(this.prospectoService.create(prospecto));
-        this.prospectoService.create(prospecto).subscribe((res: any) => {
-          // enviamos los archivos
-          const formData = new FormData();
-          formData.append('nProspecto', res.nProspecto);
-          for (let i = 0; i < this.documentos.length; i++) {
-            // eslint-disable-next-line no-debugger
-            debugger
-            formData.append('files', this.documentos[i]); 
-            formData.append('fileNames', this.documentosNombres[i].cDocumento);
-          }
-
-          this.prospectoService.uploadFiles(formData, res.nProspecto).subscribe((resDocs: any) => {
-            if(resDocs) {
-              this.previousState();
+        this.prospectoService.create(prospecto).subscribe(
+          (res: any) => {
+            // enviamos los archivos
+            const formData = new FormData();
+            formData.append('nProspecto', res.nProspecto);
+            for (let i = 0; i < this.documentos.length; i++) {
+              formData.append('files', this.documentos[i]);
+              formData.append('fileNames', this.documentosNombres[i].cDocumento);
             }
-          })
-        }, (error: any) => {
-          this.isSaving = true;
-        this.alertService.addAlert({
-          type: 'danger',
-          message: 'Ocurrió un error al guardar el prospecto.',
-        });
-        });
 
+            this.prospectoService.uploadFiles(formData, res.nProspecto).subscribe((resDocs: any) => {
+              if (resDocs) {
+                this.previousState();
+              }
+            });
+          },
+          (error: any) => {
+            this.isSaving = true;
+            this.alertService.addAlert({
+              type: 'danger',
+              message: 'Ocurrió un error al guardar el prospecto.',
+            });
+          }
+        );
       } else {
         this.isSaving = true;
         this.alertService.addAlert({
@@ -119,8 +118,6 @@ export class ProspectoUpdateComponent implements OnInit {
           message: 'Es necesario agregar 1 ó mas documentos.',
         });
       }
-
-   
     }
   }
 
@@ -137,41 +134,39 @@ export class ProspectoUpdateComponent implements OnInit {
   }
 
   onFileSelected(file: any): void {
-    if(this.nProspecto > 0) {
-        const formData = new FormData();
-        const nameParts = file.target.files[0].name.split('.');
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-        const newNameFile = this.editForm.get(['cNombreDocumento'])!.value +'.'+ nameParts[nameParts.length-1];
+    if (this.nProspecto > 0) {
+      const formData = new FormData();
+      const nameParts = file.target.files[0].name.split('.');
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      const newNameFile = this.editForm.get(['cNombreDocumento'])!.value + '.' + nameParts[nameParts.length - 1];
 
-        formData.append('files', file.target.files[0]); 
-        formData.append('fileNames', newNameFile);
-        this.prospectoService.uploadFiles(formData, this.nProspecto).subscribe((res: any) => {
-          // eslint-disable-next-line no-debugger
-          debugger
-          if(res !== null && res > 0) {
-            this.documentos.push(file.target.files[0]);
-            this.documentosNombres.push({nDocumentoProspecto: res, cDocumento: newNameFile, cUri: ''});
-            this.inputFile.nativeElement.value = "";
-            this.editForm.controls.cNombreDocumento.setValue('');
-            this.hideAgregarDocumento();
-          }
-        });
+      formData.append('files', file.target.files[0]);
+      formData.append('fileNames', newNameFile);
+      this.prospectoService.uploadFiles(formData, this.nProspecto).subscribe((res: any) => {
+        if (res !== null && res > 0) {
+          this.documentos.push(file.target.files[0]);
+          this.documentosNombres.push({ nDocumentoProspecto: res, cDocumento: newNameFile, cUri: '' });
+          this.inputFile.nativeElement.value = '';
+          this.editForm.controls.cNombreDocumento.setValue('');
+          this.hideAgregarDocumento();
+        }
+      });
     } else {
       const nameParts = file.target.files[0].name.split('.');
       // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      const newNameFile = this.editForm.get(['cNombreDocumento'])!.value +'.'+ nameParts[nameParts.length-1];
+      const newNameFile = this.editForm.get(['cNombreDocumento'])!.value + '.' + nameParts[nameParts.length - 1];
       this.documentos.push(file.target.files[0]);
-      this.documentosNombres.push({nDocumentoProspecto: this.documentos.length, cDocumento: newNameFile, cUri: ''});
-      this.inputFile.nativeElement.value = "";
+      this.documentosNombres.push({ nDocumentoProspecto: this.documentos.length, cDocumento: newNameFile, cUri: '' });
+      this.inputFile.nativeElement.value = '';
       this.editForm.controls.cNombreDocumento.setValue('');
       this.hideAgregarDocumento();
     }
   }
 
-  eliminarDocumento(index: number, nDocumentoProspecto: number) : void {
-    if(this.nProspecto > 0) {
+  eliminarDocumento(index: number, nDocumentoProspecto: number): void {
+    if (this.nProspecto > 0) {
       this.prospectoService.deleteFile(nDocumentoProspecto).subscribe((res: any) => {
-        if(res) {
+        if (res) {
           this.documentosNombres.splice(index, 1);
         }
       });
@@ -182,7 +177,6 @@ export class ProspectoUpdateComponent implements OnInit {
   }
 
   descargar(documento: any): any {
-    
     // const blobUrl = window.URL.createObjectURL(this.b64toBlob(documento.cDocumentoB64, documento.cDocumentoB64.split(':')[1].split(';')[0]));
     const link = document.createElement('a');
     link.style.display = 'none';
@@ -198,16 +192,14 @@ export class ProspectoUpdateComponent implements OnInit {
   }
 
   salir(): any {
-    // eslint-disable-next-line no-debugger
-    debugger
-    if(this.changes) {
+    if (this.changes) {
       Swal.fire({
-        icon: "question",
-        title: "Si usted sale de la pantalla se perderá la información capturada, ¿Desea salir?",
+        icon: 'question',
+        title: 'Si usted sale de la pantalla se perderá la información capturada, ¿Desea salir?',
         showCancelButton: true,
-        cancelButtonText: "Cancelar",
-        confirmButtonText: "Salir",
-      }).then((result) => {
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Salir',
+      }).then(result => {
         if (result.isConfirmed) {
           this.previousState();
         }
@@ -217,10 +209,8 @@ export class ProspectoUpdateComponent implements OnInit {
     }
   }
 
-  protected b64toBlob(b64Data: string, contentType:string = ''): any {
+  protected b64toBlob(b64Data: string, contentType: string = ''): any {
     const sliceSize = 1024;
-    // eslint-disable-next-line no-debugger
-    debugger
     const byteCharacters = atob(b64Data);
     const bytesLength = byteCharacters.length;
     const slicesCount = Math.ceil(bytesLength / sliceSize);
@@ -238,7 +228,6 @@ export class ProspectoUpdateComponent implements OnInit {
     }
     return new Blob(byteArrays, { type: contentType });
   }
-
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IProspecto>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe(

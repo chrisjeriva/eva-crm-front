@@ -14,16 +14,12 @@ export class AuthInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // eslint-disable-next-line no-debugger
-    debugger
     // const serverApiUrl = this.applicationConfigService.getEndpointFor('');
     // if (!request.url || (request.url.startsWith('http') && !(serverApiUrl && request.url.startsWith(serverApiUrl)))) {
     //   return next.handle(request);
     // }
 
     const token: string | null = this.localStorage.retrieve('authenticationToken') ?? this.sessionStorage.retrieve('authenticationToken');
-    // eslint-disable-next-line no-debugger
-    debugger
     if (token) {
       request = request.clone({
         setHeaders: {
