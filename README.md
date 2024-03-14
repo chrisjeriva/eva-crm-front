@@ -13,7 +13,7 @@ Repositorio del código de Front para evaluación técnica
   - Abrimos el archivo `environments.ts` de la carpeta **`src > main > webapp > environments`** y cambiamos el puerto `5102` por el puerto que pusimos en el paso anterior
 - Ejecutar el comando `npm start`
 
-#Usuarios
-- user: admin     - password: admin 
-- user: promotor  - password: promotor00
-- user: evaluador - password: evaluador00
+# Usuarios
+- user: `admin`       password: `admin` 
+- user: `promotor`   password: `promotor00`
+- user: `evaluador`   password: `evaluador00`
